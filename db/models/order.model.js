@@ -30,7 +30,13 @@ const OrderSchema = {
   total: {
     type: DataTypes.VIRTUAL,
     get() {
-      if (this.items.length > 0) {
+      this.tamanio=0;
+      try {
+        this.tamanio = this.items.length
+      } catch (e){
+        console.error(e)
+      }
+      if (this.tamanio > 0) {
         return this.items.reduce((total, item) => {
           return total + (item.price * item.OrderProduct.amount);
         }, 0);

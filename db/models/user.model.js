@@ -1,4 +1,4 @@
-const { Model,DataTypes,Sequelize } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const USER_TABLE = 'users';
 
@@ -7,52 +7,47 @@ const UserSchema = {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER
   },
   email: {
-    type: DataTypes.STRING,
     allowNull: false,
+    type: DataTypes.STRING,
     unique: true,
   },
   password: {
-    type: DataTypes.STRING,
     allowNull: false,
+    type: DataTypes.STRING
   },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
-    defaultValue: 'customer',
+    defaultValue: 'customer'
   },
   createAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    fielt: 'created_at',
+    field: 'createAt',
     defaultValue: Sequelize.NOW
   }
-
 }
 
 class User extends Model {
-  static associate(models){
+  static associate(models) {
     this.hasOne(models.Customer, {
       as: 'customer',
       foreignKey: 'userId'
     });
-
   }
+
   static config(sequelize) {
     return {
       sequelize,
       tableName: USER_TABLE,
-      schema: 'public',
       modelName: 'User',
       timestamps: false
     }
   }
 }
 
-module.exports = {
-  USER_TABLE,
-  UserSchema,
-  User
-}
+
+module.exports = { USER_TABLE, UserSchema, User }

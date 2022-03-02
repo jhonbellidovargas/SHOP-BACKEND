@@ -1,6 +1,6 @@
 const boom = require('@hapi/boom');
-// const getConnection = require('../libs/postgres');
-const { models } = require('../libs/sequelize');
+
+const { models } = require('./../libs/sequelize');
 
 class UserService {
   constructor() {}
@@ -11,20 +11,16 @@ class UserService {
   }
 
   async find() {
-    //const client = await getConnection();
-    //const result = await client.query('SELECT * FROM task');
-    const result = await models.User.findAll({
+    const rta = await models.User.findAll({
       include: ['customer']
     });
-
-    // return result.rows;
-    return result;
+    return rta;
   }
 
   async findOne(id) {
     const user = await models.User.findByPk(id);
     if (!user) {
-      throw boom.notFound('User not found');
+      throw boom.notFound('user not found');
     }
     return user;
   }
@@ -38,7 +34,7 @@ class UserService {
   async delete(id) {
     const user = await this.findOne(id);
     await user.destroy();
-    return id;
+    return { id };
   }
 }
 
